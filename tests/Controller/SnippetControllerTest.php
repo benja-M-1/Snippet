@@ -14,7 +14,7 @@ class SnippetControllerTest extends WebTestCase
     public function testIndex()
     {
         $client = $this->createClient();
-        $crawler = $client->request('GET', '/snippet');
+        $crawler = $client->request('GET', '/snippet/');
 
         $this->assertTrue($client->getResponse()->isOk());
         $this->assertEquals(3, $crawler->filter('ul li')->count());
