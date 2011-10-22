@@ -22,21 +22,39 @@ class SnippetControllerProvider implements ControllerProviderInterface
     {
         $controllers = new ControllerCollection();
 
-        // List of Snippets.
-        $controllers->get('/', function() use ($app) {
-            $author = new Author('John Doe', 'johnd@theodo.fr');
+        // Dataset ... database connection to come :)
+        $author = new Author('John Doe', 'johnd@theodo.fr');
 
-            $snippets = array(
-                new Snippet('One', 'text one', $author),
-                new Snippet('Two', 'text two', $author),
-                new Snippet('Three', 'text three', $author),
-            );
+        $snippets = array(
+            0 => new Snippet('One', 'text one', $author),
+            1 => new Snippet('Two', 'text two', $author),
+            2 => new Snippet('Three', 'text three', $author),
+        );
+
+        // List of Snippets.
+        $controllers->get('/', function() use ($app, $snippets) {
 
             return $app['twig']->render('index.html.twig', array(
                 'snippets' => $snippets,
             ));
         })
         ->bind('snippet_index');
+
+        // Show a Snippet.
+        $controllers->get('/{id}', function($id) use ($app, $snippets) {
+            $ids = array_keys($snippets);
+            if (!in_array($id, $ids)) {
+                throw new \Exception(sprintf('Snippet id "%s" not found.', $id));
+            }
+
+            $snippet = $snippets[$id];
+
+            return $app['twig']->render('show.html.twig', array(
+                'snippet' => $snippet,
+            ));
+        })
+        ->bind('snippet_show')
+        ->assert('id', '\d+');
 
         return $controllers;
     }

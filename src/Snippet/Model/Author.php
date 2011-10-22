@@ -28,4 +28,36 @@ class Author
     {
         return strtr('%name% <%email%>', array('%name%' => $this->name, '%email%' => $this->email));
     }
+
+    /**
+     * @param \Snippet\Model\String $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * @return \Snippet\Model\String
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param \Snippet\Model\String $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return \Snippet\Model\String
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 }
