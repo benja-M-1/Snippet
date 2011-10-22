@@ -1,0 +1,11 @@
+{% extends layout %}
+
+{% block body %}
+<ul>
+{% for snippet in snippets %}
+    <li>{{ snippet }}</li>
+{% else %}
+    <li>No snippet yet.</li>
+{% endfor %}
+</ul>
+{% endblock %}
