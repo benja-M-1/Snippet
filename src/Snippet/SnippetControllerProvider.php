@@ -16,6 +16,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Snippet\Model\Author;
 use Snippet\Model\Snippet;
 
+/**
+ * @throws \Exception
+ * @todo Use doctrine/propel to access snippets, authors from a db (sqlite maybe)
+ */
 class SnippetControllerProvider implements ControllerProviderInterface
 {
     public function connect(Application $app)
@@ -31,7 +35,9 @@ class SnippetControllerProvider implements ControllerProviderInterface
             2 => new Snippet('Three', 'text three', $author),
         );
 
-        // List of Snippets.
+        /**
+         * List of Snippets
+         */
         $controllers->get('/', function() use ($app, $snippets) {
 
             return $app['twig']->render('index.html.twig', array(
@@ -40,7 +46,10 @@ class SnippetControllerProvider implements ControllerProviderInterface
         })
         ->bind('snippet_index');
 
-        // Show a Snippet.
+        /**
+         * Show a Snippet.
+         * @throws \Exception
+         */
         $controllers->get('/{id}', function($id) use ($app, $snippets) {
             $ids = array_keys($snippets);
             if (!in_array($id, $ids)) {
@@ -55,6 +64,13 @@ class SnippetControllerProvider implements ControllerProviderInterface
         })
         ->bind('snippet_show')
         ->assert('id', '\d+');
+
+        /**
+         * Create a Snippet.
+         */
+        $controllers->get('/new', function() use ($app) {
+            return $app['twig']->render('new.html.twig');
+        });
 
         return $controllers;
     }
