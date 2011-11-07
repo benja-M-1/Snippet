@@ -1,0 +1,8 @@
+{% extends layout %}
+
+{% block body %}
+    <form action="{{ path('snippet_new') }}" method="post">
+        {{ form_widget(form) }}
+        <input type="submit" value="Enregistrer" />
+    </form>
+{% endblock %}
